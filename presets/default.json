@@ -1,0 +1,8 @@
+{
+  "preset_name": "Rule 50/30/20",
+  "categories": {
+    "Necessities": 50,
+    "Desires": 30,
+    "Savings": 20
+  }
+}
