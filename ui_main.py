@@ -112,28 +112,47 @@ preset_combo = ttk.Combobox(right_subframe, values = preset_names, state='readon
 preset_combo.grid(row=0, column=1, pady=5, sticky='w')
 preset_combo.set(preset_names[0]) #set default
 
+
 #Select preset function
 def preset_selected(event):
     selected_name = preset_combo.get()
+    categories = preset_data['categories']
+    show_categories(categories)
 preset_combo.bind('<<ComboboxSelected>>', preset_selected)
+
 
 #Function for dynamic labels depending on the preset.
 category_labels = []
 
 def show_categories(categories):
     #First clear labels
-    for i in category_labels:
-        i.destroy() #need to destroy each label, one by one
+    for item in category_labels:
+        item.destroy() #need to destroy each label, one by one
     category_labels.clear() #then clears the list
 
     #add new labels 
+    row_num = 1
+    for category_name, percentage in categories.items():
+        #Create label for the category_name
+        name_label = ttk.Label(right_subframe, text=category_name)
+        name_label.grid(row=row_num, column=0, sticky='w', pady=2)
+
+        #Create editable percentage entry
+        perc_entry = ttk.Entry(right_subframe, justify='right', width=5)
+        perc_entry.insert(0, str(percentage)) #prefill with preset percentage
+        perc_entry.grid(row=row_num, column=1, sticky='w', pady=2, padx=5)
+
+        #Trackthem for later destruction
+        category_labels.append(name_label)
+        category_labels.append(perc_entry)
+
+        row_num += 1
+show_categories(preset_data["categories"])
+    
     
 
 
 
-#Test button
-#add_button = ttk.Button(main_frame, text='Test Button')
-#add_button.pack(pady=5)
 
 #Runs the mainloop (show main window)
 root.mainloop()
